@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		83F1590F2D7784F90011A1C4 /* SDK in Frameworks */ = {isa = PBXBuildFile; productRef = 83F1590E2D7784F90011A1C4 /* SDK */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		83F158EF2D7781240011A1C4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		83F158DC2D7781220011A1C4 /* FetchRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83F158EE2D7781240011A1C4 /* FetchRecipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FetchRecipesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		83F158F82D7781240011A1C4 /* FetchRecipesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FetchRecipesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		83F1590B2D7783380011A1C4 /* SDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SDK; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83F1590F2D7784F90011A1C4 /* SDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,9 +81,11 @@
 		83F158D32D7781220011A1C4 = {
 			isa = PBXGroup;
 			children = (
+				83F1590B2D7783380011A1C4 /* SDK */,
 				83F158DE2D7781220011A1C4 /* FetchRecipes */,
 				83F158F12D7781240011A1C4 /* FetchRecipesTests */,
 				83F158FB2D7781240011A1C4 /* FetchRecipesUITests */,
+				83F1590D2D7784F90011A1C4 /* Frameworks */,
 				83F158DD2D7781220011A1C4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +98,13 @@
 				83F158F82D7781240011A1C4 /* FetchRecipesUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		83F1590D2D7784F90011A1C4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +127,7 @@
 			);
 			name = FetchRecipes;
 			packageProductDependencies = (
+				83F1590E2D7784F90011A1C4 /* SDK */,
 			);
 			productName = FetchRecipes;
 			productReference = 83F158DC2D7781220011A1C4 /* FetchRecipes.app */;
@@ -558,6 +574,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		83F1590E2D7784F90011A1C4 /* SDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83F158D42D7781220011A1C4 /* Project object */;
 }

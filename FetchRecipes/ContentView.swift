@@ -7,10 +7,12 @@
 
 import SwiftUI
 import SwiftData
+import SDK
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
+    let ts = TestStruct()
 
     var body: some View {
         NavigationSplitView {
@@ -35,7 +37,7 @@ struct ContentView: View {
                 }
             }
         } detail: {
-            Text("Select an item")
+            Text(ts.oi)
         }
     }
 

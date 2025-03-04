@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import SDK
 
 @main
 struct FetchRecipesApp: App {
