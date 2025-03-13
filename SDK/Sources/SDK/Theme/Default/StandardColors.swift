@@ -26,7 +26,7 @@ public struct StandardColors: Colors {
         self.Neutral = StandardNeutralColors()
         
         Background = Color.hex("#ffffff")
-        Surface = Color.hex("#70d6ff")
+        Surface = Color.hex("#94462B")
         OnBackground = Color.hex("#70d6ff")
         OnSurface = Color.hex("#70d6ff")
     }

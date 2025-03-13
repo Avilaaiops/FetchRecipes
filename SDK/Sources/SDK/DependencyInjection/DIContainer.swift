@@ -9,11 +9,15 @@ import Foundation
 
 open class DIContainer: ObservableObject {
     public var cache: RecipeImageCacheData
-    public var Theme: Theme
+    @Published public var Theme: Theme
     
     
     public init(cache: RecipeImageCacheData) {
         self.cache = cache
         self.Theme = DefaultTheme()
+    }
+    
+    public func updateTheme() {
+        self.Theme = MetalTheme()
     }
 }

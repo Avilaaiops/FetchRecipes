@@ -25,6 +25,10 @@ public struct RecipeList: View {
                     }
                 }
             }
+            .padding(10)
+            .refreshable {
+                refresh()
+            }
         }
     }
 }

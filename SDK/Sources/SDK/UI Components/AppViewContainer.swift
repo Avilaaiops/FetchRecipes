@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-public struct Container<Content: View>: View {
+public struct AppViewContainer<Content: View>: View {
     
-    //@EnvironmentObject var krakenApp: KrakenApp
+    @EnvironmentObject var dicontainer: DIContainer
     let content: Content
 
     public init(@ViewBuilder content: () -> Content) {
@@ -17,11 +17,12 @@ public struct Container<Content: View>: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            content
+        ZStack {
+            VStack(alignment: .leading, spacing: 0) {
+                content
+            }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-        .background(Color.white)
-        .edgesIgnoringSafeArea(.all)
+        .background(dicontainer.Theme.Images.BackgroundImage)
     }
 }

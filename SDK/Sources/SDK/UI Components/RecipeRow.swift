@@ -8,6 +8,7 @@
 import SwiftUI
 
 public struct RecipeRow: View {
+    @EnvironmentObject var container: DIContainer
     let recipe: Recipe
     
     public init(recipe: Recipe) {
@@ -15,13 +16,16 @@ public struct RecipeRow: View {
     }
     
     public var body: some View {
-        HStack {
+        HStack(alignment:.top) {
             RecipeImage(url: recipe.photoURLSmall ?? recipe.photoURLLarge ?? nil)
-            Text(recipe.name)
+            VStack(alignment: .leading) {
+                RecipeTitle(text: recipe.name)
+                RecipeSubTitle(text: recipe.cuisine)
+            }
         }
         .frame(minWidth:0, maxWidth: .infinity, alignment: .leading)
         .padding(5)
-        .background(Color.mint)
+        .background(container.Theme.Colors.Surface)
         .clipShape(RoundedRectangle(cornerRadius: 5))
     }
 }

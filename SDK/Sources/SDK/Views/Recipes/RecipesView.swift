@@ -8,6 +8,7 @@
 import SwiftUI
 
 public struct RecipesView: View {
+    @EnvironmentObject var dicontainer: DIContainer
     @ObservedObject var viewModel: RecipesViewModel
     
     public init() {
@@ -16,7 +17,8 @@ public struct RecipesView: View {
     }
 
     public var body: some View {
-        Container {
+        AppViewContainer {
+            MetalModeToggle()
             content
         }
     }
@@ -30,12 +32,6 @@ public struct RecipesView: View {
         }
    }
 }
-
-//struct RecipesView_Previews: PreviewProvider {
-//    public static var previews: some View {
-//        RecipesView()
-//    }
-//}
 
 private extension RecipesView {
     var notRequestedView: some View {
@@ -54,7 +50,7 @@ private extension RecipesView {
         Image("errorimg", bundle: Bundle.module)
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(width: 93.0, height: 93.0)
+            .frame(width: 93.0, height: 93.0, alignment: .center)
             .clipShape(RoundedRectangle(cornerRadius: 5))
     }
 }
