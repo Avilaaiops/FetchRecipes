@@ -9,14 +9,22 @@ import SwiftUI
 
 public struct RecipeList: View {
     let recipes: [Recipe]
+    var refresh: () -> Void
     
-    public init(recipes: [Recipe]) {
+    public init(recipes: [Recipe], refresh: @escaping () -> Void) {
         self.recipes = recipes
+        self.refresh = refresh
     }
     
     public var body: some View {
-        List(self.recipes, id: \.uuid) { recipe in
-            RecipeRow(recipe: recipe)
+        GeometryReader { geometry in
+            ScrollView {
+                LazyVStack {
+                    ForEach(recipes, id: \.uuid) { recipe in
+                        RecipeRow(recipe: recipe)
+                    }
+                }
+            }
         }
     }
 }

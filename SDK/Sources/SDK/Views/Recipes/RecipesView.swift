@@ -16,7 +16,9 @@ public struct RecipesView: View {
     }
 
     public var body: some View {
-        content
+        Container {
+            content
+        }
     }
     
     private var content: AnyView {
@@ -29,11 +31,11 @@ public struct RecipesView: View {
    }
 }
 
-struct RecipesView_Previews: PreviewProvider {
-    public static var previews: some View {
-        RecipesView()
-    }
-}
+//struct RecipesView_Previews: PreviewProvider {
+//    public static var previews: some View {
+//        RecipesView()
+//    }
+//}
 
 private extension RecipesView {
     var notRequestedView: some View {
@@ -44,11 +46,15 @@ private extension RecipesView {
         ProgressView()
     }
     
-    func loadedView(_ recipes: RecipesCollection) -> some View {
-        RecipeList(recipes: recipes.recipes)
+    func loadedView(_ recipes: [Recipe]) -> some View {
+        RecipeList(recipes: recipes, refresh: self.viewModel.fetchRecipes)
     }
     
     func failedView(_ error: Error) -> some View {
-        Text("Failed")
+        Image("errorimg", bundle: Bundle.module)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 93.0, height: 93.0)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
     }
 }

@@ -11,40 +11,21 @@ import Combine
 public protocol JSONRepository {
     var session: URLSession { get }
     var baseURL: String { get }
-    var bgQueue: DispatchQueue { get }
 }
 
 public extension JSONRepository {
-    func call<Value>(endpoint: APICall, httpCodes: HTTPCodes = .success) -> AnyPublisher<Value, Error>
-        where Value: Decodable {
-        do {
-            let request = try endpoint.urlRequest(baseURL: baseURL)
-            return session
-                .dataTaskPublisher(for: request)
-                .requestJSON(httpCodes: httpCodes)
-        } catch let error {
-            return Fail<Value, Error>(error: error).eraseToAnyPublisher()
+    func call<T>(endpoint: APICall, httpCodes: HTTPCodes = .success) async throws -> T where T: Decodable {
+        let request = try endpoint.urlRequest(baseURL: baseURL)
+        guard let (data, response) = try await session.data(for: request) as? (Data, HTTPURLResponse),
+              httpCodes.contains(response.statusCode) else {
+            throw APIError.unexpectedResponse
         }
+        return try data.requestJSON(as: RecipesCollection.self).recipes as! T
     }
 }
 
-// MARK: - Helpers
-private extension Publisher where Output == URLSession.DataTaskPublisher.Output {
-    func requestJSON<Value>(httpCodes: HTTPCodes) -> AnyPublisher<Value, Error> where Value: Decodable {
-        print("API JSON")
-        return tryMap {
-                assert(!Thread.isMainThread)
-                guard let code = ($0.1 as? HTTPURLResponse)?.statusCode else {
-                    throw APIError.unexpectedResponse
-                }
-                guard httpCodes.contains(code) else {
-                    throw APIError.httpCode(code)
-                }
-                return $0.0
-            }
-            .extractUnderlyingError()
-            .decode(type: Value.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
+public extension Data {
+    func requestJSON<T: Decodable>(as type: T.Type, using decoder: JSONDecoder = .init()) throws -> T {
+        return try decoder.decode(type, from: self)
     }
 }

@@ -15,6 +15,13 @@ public struct RecipeRow: View {
     }
     
     public var body: some View {
-        Text(recipe.name)
+        HStack {
+            RecipeImage(url: recipe.photoURLSmall ?? recipe.photoURLLarge ?? nil)
+            Text(recipe.name)
+        }
+        .frame(minWidth:0, maxWidth: .infinity, alignment: .leading)
+        .padding(5)
+        .background(Color.mint)
+        .clipShape(RoundedRectangle(cornerRadius: 5))
     }
 }

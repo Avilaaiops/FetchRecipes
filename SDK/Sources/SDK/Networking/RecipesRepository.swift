@@ -9,22 +9,23 @@ import Foundation
 import Combine
 
 protocol RecipesJSONRepository: JSONRepository {
-    func fetchRecipes() -> AnyPublisher<RecipesCollection, Error>
+    var fetchRecipes: [Recipe] { get async throws }
 }
 
 public struct RecipesRepository: RecipesJSONRepository {
     
     public let session: URLSession
     public let baseURL: String
-    public let bgQueue = DispatchQueue(label: "bg_parse_queue")
     
     init(session: URLSession, baseURL: String) {
         self.session = session
         self.baseURL = baseURL
     }
     
-    public func fetchRecipes() -> AnyPublisher<RecipesCollection, Error> {
-        return call(endpoint: API.allRecipes)
+    public var fetchRecipes: [Recipe] {
+        get async throws {
+            return try await call(endpoint: API.allRecipes)
+        }
     }
     
 }

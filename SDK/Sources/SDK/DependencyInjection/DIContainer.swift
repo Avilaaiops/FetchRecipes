@@ -5,8 +5,15 @@
 //  Created by Wesley Mitchell on 3/6/25.
 //
 
-import Combine
+import Foundation
 
 open class DIContainer: ObservableObject {
+    public var cache: RecipeImageCacheData
+    public var Theme: Theme
     
+    
+    public init(cache: RecipeImageCacheData) {
+        self.cache = cache
+        self.Theme = DefaultTheme()
+    }
 }
