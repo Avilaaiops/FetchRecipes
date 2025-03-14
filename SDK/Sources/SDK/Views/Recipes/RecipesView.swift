@@ -43,14 +43,22 @@ private extension RecipesView {
     }
     
     func loadedView(_ recipes: [Recipe]) -> some View {
-        RecipeList(recipes: recipes, refresh: self.viewModel.fetchRecipes)
+        if recipes.count > 0 {
+            return AnyView(RecipeList(recipes: recipes, refresh: self.viewModel.fetchRecipes))
+        } else {
+            return AnyView(
+                ErrorView(text: "I'm sorry Dave, there are no recipes here.")
+                    .refreshable {
+                        self.viewModel.fetchRecipes()
+                    }
+            )
+        }
     }
     
     func failedView(_ error: Error) -> some View {
-        Image("errorimg", bundle: Bundle.module)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 93.0, height: 93.0, alignment: .center)
-            .clipShape(RoundedRectangle(cornerRadius: 5))
+        ErrorView(text: "We have the results of the network call. It didn't want to work for you today.")
+            .refreshable {
+                self.viewModel.fetchRecipes()
+            }
     }
 }

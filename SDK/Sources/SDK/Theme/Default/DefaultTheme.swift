@@ -27,6 +27,10 @@ public struct SampleImages: Images {
     public var BackgroundImage: Image
     
     init() {
-        BackgroundImage = Image(uiImage: UIImage(named: "sogbo", in: Bundle.module, compatibleWith: nil)!)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            BackgroundImage = Image(uiImage: UIImage(named: "sogboipad", in: Bundle.module, compatibleWith: nil)!)
+        } else {
+            BackgroundImage = Image(uiImage: UIImage(named: "sogbo", in: Bundle.module, compatibleWith: nil)!)
+        }
     }
 }

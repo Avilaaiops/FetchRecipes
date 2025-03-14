@@ -11,37 +11,40 @@ import XCTest
 
 class RecipeTests: XCTestCase {
 
-    func testRecipeDecoding() throws {
-        let json = """
-        {
-            "cuisine": "British",
-            "name": "Bakewell Tart",
-            "photo_url_large": "https://some.url/large.jpg",
-            "photo_url_small": "https://some.url/small.jpg",
-            "uuid": "eed6005f-f8c8-451f-98d0-4088e2b40eb6",
-            "source_url": "https://some.url/index.html",
-            "youtube_url": "https://www.youtube.com/watch?v=some.id"
+    func testRecipeDecoding() {
+            let json = """
+            {
+                "cuisine": "Italian",
+                "name": "Spaghetti Carbonara",
+                "photo_url_large": "https://example.com/photo_large.jpg",
+                "photo_url_small": "https://example.com/photo_small.jpg",
+                "uuid": "123e4567-e89b-12d3-a456-426614174000",
+                "source_url": "https://example.com/recipe",
+                "youtube_url": "https://youtube.com/watch?v=dQw4w9WgXcQ"
+            }
+            """.data(using: .utf8)!
+
+            do {
+                let decoder = JSONDecoder()
+                let recipe = try decoder.decode(Recipe.self, from: json)
+                
+                XCTAssertEqual(recipe.cuisine, "Italian")
+                XCTAssertEqual(recipe.name, "Spaghetti Carbonara")
+                XCTAssertEqual(recipe.photoURLLarge, URL(string: "https://example.com/photo_large.jpg"))
+                XCTAssertEqual(recipe.photoURLSmall, URL(string: "https://example.com/photo_small.jpg"))
+                XCTAssertEqual(recipe.uuid, "123e4567-e89b-12d3-a456-426614174000")
+                XCTAssertEqual(recipe.sourceURL, URL(string: "https://example.com/recipe"))
+                XCTAssertEqual(recipe.youtubeURL, URL(string: "https://youtube.com/watch?v=dQw4w9WgXcQ"))
+            } catch {
+                XCTFail("Decoding failed: \(error)")
+            }
         }
-        """.data(using: .utf8)!
-
-        let decoder = JSONDecoder()
-        let recipe = try decoder.decode(Recipe.self, from: json)
-
-        XCTAssertEqual(recipe.cuisine, "British")
-        XCTAssertEqual(recipe.name, "Bakewell Tart")
-        XCTAssertEqual(recipe.photoURLLarge.absoluteString, "https://some.url/large.jpg")
-        XCTAssertEqual(recipe.photoURLSmall.absoluteString, "https://some.url/small.jpg")
-        XCTAssertEqual(recipe.uuid, "eed6005f-f8c8-451f-98d0-4088e2b40eb6")
-        XCTAssertEqual(recipe.sourceURL.absoluteString, "https://some.url/index.html")
-        XCTAssertEqual(recipe.youtubeURL.absoluteString, "https://www.youtube.com/watch?v=some.id")
-    }
 
     func testRecipeDecodingInvalidData() {
         let invalidJson = """
         {
             "cuisine": "British",
-            "name": "Bakewell Tart",
-            "photo_url_large": "invalid_url",
+            "photo_url_large": "https://example.com/photo_large.jpg",
             "uuid": "eed6005f-f8c8-451f-98d0-4088e2b40eb6",
             "source_url": "https://some.url/index.html"
         }

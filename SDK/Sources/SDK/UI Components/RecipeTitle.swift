@@ -17,6 +17,7 @@ public struct RecipeTitle: View {
     
     public var body: some View {
         Text(text)
-            .font(.custom(container.Theme.Typography.Title.typeFace, size: container.Theme.Typography.Title.size))
+            .font(.custom(container.Theme.Typography.Title.typeFace,
+                    size: container.Theme.Typography.Title.size))
     }
 }

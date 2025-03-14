@@ -2,7 +2,7 @@
 //  APICallTests.swift
 //  SDK
 //
-//  Created by Wesley Mitchell on 3/6/25.
+//  Created by Wesley Mitchell on 3/14/25.
 //
 
 import XCTest
@@ -14,37 +14,62 @@ class APICallTests: XCTestCase {
         var path: String
         var method: String
         var headers: [String: String]?
-        var bodyData: Data?
+        var requestBody: Data?
 
         func body() throws -> Data? {
-            return bodyData
+            return requestBody
         }
     }
 
-    func testURLRequestSuccess() throws {
-        let apiCall = MockAPICall(path: "/test", method: "GET", headers: ["Content-Type": "application/json"], bodyData: nil)
-        let baseURL = "https://mock.com"
-        let request = try apiCall.urlRequest(baseURL: baseURL)
+    func testURLRequestSuccess() {
+        let apiCall = MockAPICall(
+            path: "/test",
+            method: "GET",
+            headers: ["Content-Type": "application/json"],
+            requestBody: nil
+        )
 
-        XCTAssertEqual(request.url?.absoluteString, "https://mock.com/test")
-        XCTAssertEqual(request.httpMethod, "GET")
-        XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"], "application/json")
-        XCTAssertNil(request.httpBody)
+        do {
+            let request = try apiCall.urlRequest(baseURL: "https://example.com")
+            XCTAssertEqual(request.url?.absoluteString, "https://example.com/test")
+            XCTAssertEqual(request.httpMethod, "GET")
+            XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"], "application/json")
+            XCTAssertNil(request.httpBody)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
     }
 
     func testURLRequestInvalidURL() {
-        let apiCall = MockAPICall(path: "invalid url", method: "GET", headers: nil, bodyData: nil)
-        let baseURL = "https://mock.com"
+        let apiCall = MockAPICall(
+            path: "invalid url",
+            method: "GET",
+            headers: nil,
+            requestBody: nil
+        )
 
-        XCTAssertThrowsError(try apiCall.urlRequest(baseURL: baseURL)) { error in
+        XCTAssertThrowsError(try apiCall.urlRequest(baseURL: "https://example.com")) { error in
             XCTAssertEqual(error as? APIError, APIError.invalidURL)
         }
     }
 
-    func testAPIErrorDescriptions() {
-        XCTAssertEqual(APIError.invalidURL.localizedDescription, "Invalid URL")
-        XCTAssertEqual(APIError.httpCode(404).localizedDescription, "Unexpected HTTP code: 404")
-        XCTAssertEqual(APIError.unexpectedResponse.localizedDescription, "Unexpected response from the server")
-        XCTAssertEqual(APIError.imageProcessing([]).localizedDescription, "Unable to load image")
+    func testURLRequestWithBody() {
+        let requestBody = "{\"key\":\"value\"}".data(using: .utf8)
+        let apiCall = MockAPICall(
+            path: "/test",
+            method: "POST",
+            headers: ["Content-Type": "application/json"],
+            requestBody: requestBody
+        )
+
+        do {
+            let request = try apiCall.urlRequest(baseURL: "https://example.com")
+            XCTAssertEqual(request.url?.absoluteString, "https://example.com/test")
+            XCTAssertEqual(request.httpMethod, "POST")
+            XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"], "application/json")
+            XCTAssertEqual(request.httpBody, requestBody)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
     }
 }

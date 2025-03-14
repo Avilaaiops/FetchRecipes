@@ -22,7 +22,7 @@ public struct MetalModeToggle: View {
             }
             .onChange(of: isMetal) { value in
                 if(value) {
-                    dicontainer.updateTheme()
+                    dicontainer.Theme = MetalTheme()
                 } else {
                     dicontainer.Theme = DefaultTheme()
                 }

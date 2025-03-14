@@ -23,6 +23,10 @@ public struct AppViewContainer<Content: View>: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-        .background(dicontainer.Theme.Images.BackgroundImage)
+        .background(dicontainer.Theme.Images.BackgroundImage
+                        .resizable()
+                        .scaledToFill()
+                        .edgesIgnoringSafeArea(.all)
+        )
     }
 }

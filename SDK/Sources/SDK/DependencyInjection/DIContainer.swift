@@ -16,8 +16,4 @@ open class DIContainer: ObservableObject {
         self.cache = cache
         self.Theme = DefaultTheme()
     }
-    
-    public func updateTheme() {
-        self.Theme = MetalTheme()
-    }
 }

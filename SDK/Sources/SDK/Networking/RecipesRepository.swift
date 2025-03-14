@@ -41,7 +41,7 @@ extension RecipesRepository.API: APICall {
     var path: String {
         switch self {
         case .allRecipes:
-            return "/recipes.json"
+            return "/recipes-malformed.json"
         }
     }
     
