@@ -30,7 +30,7 @@ public struct RecipesView: View {
         case let .loaded(recipes): return AnyView(loadedView(recipes))
         case let .failed(error): return AnyView(failedView(error))
         }
-   }
+    }
 }
 
 private extension RecipesView {
@@ -47,18 +47,12 @@ private extension RecipesView {
             return AnyView(RecipeList(recipes: recipes, refresh: self.viewModel.fetchRecipes))
         } else {
             return AnyView(
-                ErrorView(text: "I'm sorry Dave, there are no recipes here.")
-                    .refreshable {
-                        self.viewModel.fetchRecipes()
-                    }
+                ErrorView(text: "I'm sorry Dave, there are no recipes here.", refresh: self.viewModel.fetchRecipes)
             )
         }
     }
     
     func failedView(_ error: Error) -> some View {
-        ErrorView(text: "We have the results of the network call. It didn't want to work for you today.")
-            .refreshable {
-                self.viewModel.fetchRecipes()
-            }
+        ErrorView(text: "We have the results of the network call. It didn't want to work for you today.", refresh: self.viewModel.fetchRecipes)
     }
 }

@@ -36,6 +36,24 @@ In my UI components, you'll notice most of the style data is coming from a Theme
     }
 This has a number of advantages! Since the Theme is published, you can swap it on the fly. I used this in my "Metal Mode" feature to update not just the background image, but Fonts as well as Brand and Semantic color schemes. While this is a fun example, it also allows easy support for color blindness accessibility by creating themes for Deuteranomaly and other types of color blindness, or upsizing fonts for the visually impaired.
 
+#### State Management
+I included a Loadable framework here for State Management. Not only does it help coordinate views so it's clear which view is loading under which condition:
+
+    // From the ViewModel
+    @Published var recipes: Loadable<[Recipe]>
+
+    //...to the View
+    private var content: AnyView {
+        switch viewModel.recipes {
+        case .notRequested: return AnyView(notRequestedView)
+        case .isLoading: return AnyView(loadingView())
+        case let .loaded(recipes): return AnyView(loadedView(recipes))
+        case let .failed(error): return AnyView(failedView(error))
+        }
+    }
+
+It also maintains previous loads under the hood, so if you refresh and get an error, it will maintain the state of the last successful api call so you don't end up with an empty screen.
+
 ### Time Spent: Approximately how long did you spend working on this project? How did you allocate your time?
 I think I spent about two days in total. A few after-hours partial days working on specific areas of the project like networking or unit testing, and then one full day to go thorugh everything and clean it up and ensure I met each requirement. I'm in the middle of a MAJOR release at my current role, and as noted I had to take care of a family matter and fly down to California, so this was as much time as I had. (But I'm proud of what I did in a short period of time)
 
@@ -56,7 +74,7 @@ While I did use this as much as was practical in the timeframe, I would normally
 I like my solution to combine async/await into a publishable variable that reactively binds to the view, but I don't LOVE it. I saw some fun things now with SwiftData where you can more directly bind state based data to views, but it would have taken too long to implement without having done it before.
 
 #### Cache Management
-Ideally I'd implement a Least Recently Used queue to manage storage size, but to do those things correctly would have taken more time than I had.
+Ideally I'd implement a Least Recently Used queue to manage storage size, but to do those things correctly would have taken more time than I had. I'm also aware that using a key/value cache means I'm loading a lot of image data into memory that may not be used, so overall cache robustness is lacking.
 
 #### Testing
 It represents a solid effort given the time, but I'd like to do much more.
@@ -65,6 +83,12 @@ It represents a solid effort given the time, but I'd like to do much more.
 I didn't add unnecessary features due to time constraints, but given more time I would have loved to have added a YouTube modal of some kind for each recipe.
 
 ### Additional Information: Is there anything else we should know? Feel free to share any insights or constraints you encountered.
+
+#### Reviewer Courtesy
+The API Endpoint is located at:
+SDK/Networking/RecipesRepository.swift on line 44
+
+#### Requirements Explanation
 
 I took the requirements very seriously. I made sure to confirm each of the following:
 
